@@ -1,12 +1,21 @@
-const menuBtn = document.querySelector('.menu-btn');
-const navList = document.querySelector('.nav-list');
+let botao = document.querySelector('.menu-btn');
+let menu = document.querySelector('.nav-list');
 
-menuBtn.addEventListener('click', () => {
-    navList.classList.toggle('active');
-})
+botao.addEventListener('click', function() {
+    
+    menu.classList.toggle('active');
+});
 
-navList.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
+// Fecha o menu ao clicar em um link
+let links = document.querySelectorAll('.nav-list a');
+links.forEach(function(link) {
+    link.addEventListener('click', function() {
+        menu.classList.remove('active');
+    });
+});
+
+document.addEventListener('click', (e) => {
+    if (!navList.contains(e.target) && !menuBtn.contains(e.target)) {
         navList.classList.remove('active');
-    })
-})
+    }
+});

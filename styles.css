@@ -14,11 +14,20 @@
     --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 }
 
+html,
+body {
+    overflow-x: hidden !important;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     background: linear-gradient(135deg, #fff9f5, #fff);
     font-family: "Poppins", sans-serif;
     line-height: 1.6;
-    color: #333
+    color: #333;
+    overflow-x: hidden;
 }
 
 a {
@@ -95,7 +104,7 @@ html {
     position: fixed;
     justify-content: space-between;
     align-items: center;
-    padding: 1px 5%;
+    padding: 0px 5%;
     inset: 0 0 auto 0;
     background-color: #121212;
     box-shadow: var(--shadow);
@@ -103,6 +112,15 @@ html {
     z-index: 99;
 
 }
+.container{
+    background-color: #121212;
+    padding: 30px 5%;
+    inset: 0 0 auto 0;
+    border-bottom: 2px solid #d4a017;
+    z-index: 99;
+}
+
+
 
 .logo-text {
     font-family: "Bangers", system-ui;
@@ -112,6 +130,8 @@ html {
     padding: 10px;
     cursor: pointer;
     margin: auto;
+    display: block;
+    text-align: center;
 }
 
 .nav-list {
@@ -197,6 +217,7 @@ html {
 
 }
 
+
 .hero-waper {
     background: linear-gradient(135deg, #fff9f5, #fff);
     padding-top: 80px;
@@ -216,7 +237,16 @@ html {
     ;
 }
 
-.hero h1 {
+.hero-content {
+    flex: 1;
+    max-width: 600px;
+}
+
+.hero-content h1 {
+
+    font-weight: 700;
+    color: #1a1a1a;
+    /* IMPORTANTE: Garante que o h1 apareça completo */
     font-size: 48px;
     line-height: 1.4;
     margin-bottom: 20px;
@@ -224,13 +254,22 @@ html {
     padding-top: 0;
 }
 
-.hero p {
+
+
+.hero-content h1 .highlight {
+    color: #000;
+    font-size: 3.5rem;
+    display: block;
+    /* Força a quebra de linha */
+}
+
+.hero .content p {
     font-size: 18px;
     color: var(--gray);
     margin-bottom: 30px;
 }
 
-.hero img {
+.hero .hero-image img {
     width: 135%;
     max-width: none;
     margin-left: -160px;
@@ -286,13 +325,13 @@ html {
 }
 
 .cardapio {
-    padding: 80px 5%;
+    padding: 90px 5%;
     text-align: center;
 }
 
-.cardapio h2 {
+.cardapio h1 {
     font-size: 36px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .cardapio p {
@@ -443,7 +482,7 @@ html {
 
 
 footer {
-    display: grid;
+    display: flex;
     grid-template-columns: repeat(4, 1fr);
     gap: 40px;
     padding: 60px 5% 20px;
@@ -459,122 +498,245 @@ footer .copy {
 }
 
 @media (max-width: 768px) {
-
     :root {
-        font-size: 48%;
+        font-size: 16px;
+        /* base de fonte normal, evitando aumento excessivo */
     }
 
+    body {
+        padding-bottom: 70px;
+        /* altura da navbar */
+    }
 
-    .navbar-container .nav-list {
-
-        position: absolute;
-        display: none;
-        top: 100%;
+    /* =============== NAVBAR (consertada) =============== */
+    .navbar-container {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        padding: 10px 20px;
+        height: 70px;
+        background-color: #121212;
+        position: fixed;
+        bottom: 0;
+        /* fixa na parte de baixo */
         left: 0;
         right: 0;
-        background-color: #000;
-        padding: 1rem 2rem;
-        border-top-left-radius: .1rem solid rgba(255, 255, 255, .3);
-        border-bottom: .1rem solid rgba(255, 255, 255, .3);
-        flex-direction: column;
-
+        z-index: 1000;
+        border-top: 2px solid #d4a017;
+        border-bottom: none;
+        overflow: visible !important;
     }
 
-    .navbar-container .nav-list.active {
-        display: flex;
+    .logo-text {
+        font-size: 1.6rem !important;
+        line-height: 1;
+        color: #fff;
+        margin-right: auto;
+        padding-left: 6px;
     }
 
-    .navbar-container .nav-list a {
-        padding: 1.2rem 0;
-        margin: 0;
-        font-size: 2rem;
-        border-bottom: .1rem solid rgba(255, 255, 255, .3);
-
-    }
-
+    /* Botão do menu hamburguer */
     .menu-btn {
         display: flex;
-        color: #000;
-    }
-
-    .header .nav-list {
-        display: none;
-
-    }
-     .hero-waper {
-        display: flex;
         flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 2rem 1rem;
-        padding-top: 80px !important;
-        height: auto !important;
+        gap: 5px;
+        cursor: pointer;
+        background: #000;
+        border: none;
+    }
+
+    .bar {
+        width: 28px;
+        height: 3px;
+        background: #fff;
+        border-radius: 3px;
+        transition: 0.3s;
+    }
+
+
+    /* Lista de navegação escondida por padrão */
+    .nav-list {
+        display: flex;
+        position: absolute;
+        left: 10px;
+        right: 10px;
+        background-color: #b3adad82;
+        flex-direction: column;
+        overflow: hidden;
+        transition: 0.3s ease-in-out;
+        max-height: 0;
+        margin: 0;
+        list-style: none;
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.6);
+        z-index: 999;
+        color: #fff;
+        display: flex;
+        z-index: 1001;
+    }
+
+    .nav-list.active {
+        max-height: 190px;
+        left: 250px;
+    }
+
+
+
+    .nav-list a {
+        display: block;
+        padding: 14px 20px;
+        color: #000000 !important;
+        font-weight: 500;
+        font-size: 1rem;
+        text-decoration: none;
+        border-bottom: 1px solid #333;
+        background-color: transparent;
+        /* herda fundo preto da lista */
+    }
+
+
+
+
+    /* Grupo de botões "Pedir Agora" etc. */
+    .grupo-botoes {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+        gap: 8px;
+        background-color: #1a1a1a;
+    }
+
+    .btn {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+
+    /* =============== HERO – agora compacto =============== */
+    .hero-waper {
+        padding: 100px 0 0 0;
+        overflow: hidden;
+        /* só espaço para não ficar atrás da navbar */
     }
 
     .hero {
         display: flex !important;
-        flex-direction: row !important; 
-        justify-content: space-between !important;
-        align-items: center !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         width: 100% !important;
-        gap: 10px;
-        padding: 0 15px;
-    }
-
-    .hero>div {
-       width: 60% !important; 
-        text-align: left !important;
-    }
-
-     .hero-waper h1 {
-        width: 60% !important; 
-        text-align: left !important;
-    }
-
-    .hero-waper p {
-        font-size: 0.9rem !important;
-        margin-bottom: 15px;
-        line-height: 1.3;
-    }
-
-     .hero img {
-       width: 35% !important; 
-        max-width: 160px !important;
-        height: auto !important;
+        max-width: 100vw;
+        min-height: auto;
+        padding: 30px 15px 40px !important;
+        /* bem menor que antes */
         margin: 0 !important;
-        object-fit: contain;
+        text-align: center;
+        overflow: hidden;
+        position: relative;
     }
 
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 100%;
+        padding: 0 8px;
+        /* respiro mínimo */
+    }
+
+    .hero-content h1 {
+        font-size: 1.8rem;
+        /* reduzido */
+        line-height: 1.2;
+        margin: 0 0 10px;
+        padding: 4;
+    }
+
+    .hero-content .highlight {
+        font-size: 2.2rem;
+        display: block;
+    }
+
+    .hero-content p {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+        color: #6c757d;
+    }
 
     .hero-buttons {
         display: flex;
-        flex-direction: column; /* Botões um sobre o outro para não esmagar */
-        gap: 8px;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
     }
 
     .hero-buttons .btn {
-       font-size: 0.8rem;
-        padding: 8px 12px;
-        width: fit-content;
+        width: 80%;
+        max-width: 280px;
+        margin: 0 auto;
+        font-size: 1rem;
+    }
+
+    /* Imagem do hambúrguer menor e transparente */
+    .hero-image {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        width: auto;
+        max-width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0.12;
+        /* ainda mais suave */
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .hero-image img {
+        width: 100%;
+        max-width: 220px;
+        /* bem menor, ajuste se quiser ainda mais compacto */
+        height: auto;
+        filter: blur(3px);
+    }
+
+    /* Estatísticas menores */
+    .hero-stats {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    .hero-stats li span,
+    .hero-stats li strong {
+        font-size: 0.85rem;
     }
 
     .hero-stats li strong {
-        font-size: 1.2rem;
-    }
-    .hero-stats {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        flex-wrap: wrap;
-        margin-bottom: 30px;
+        font-size: 1.1rem;
     }
 
+    /* =============== SEÇÕES GERAIS =============== */
+    .cardapio {
+        padding: 40px 5%;
+    }
 
-   
-   
+    .sobre {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 40px 5%;
+    }
 
-   
+    footer {
+        flex-direction: column;
+        text-align: center;
+    }
+}
 
-    
-
+.footer {
+    flex-direction: column;
 }
